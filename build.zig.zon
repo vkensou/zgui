@@ -27,9 +27,9 @@
             .hash = "zgpu-0.12.0-dev-nqFT5EKgCADkhwAf97_pfSOmPWEguKmljSECs9ihpFS7",
             .lazy = true,
         },
-        .zsdl = .{
+        .zsdl2 = .{
             .url = "https://github.com/vkensou/zsdl2/archive/319b34dd8ddc9a863e0ea9767785bb7da3df38d4.tar.gz",
-            .hash = "12201eb0929eacc66247d15338c685dccebd10d8d63e40b1bf1adab144bc5e137021",
+            .hash = "zsdl2-2.32.2-9Kh8KoaKOQEesJKerMZiR9FTOMaF3M69ENjWPkCxvxra",
             .lazy = true,
         },
         .freetype = .{

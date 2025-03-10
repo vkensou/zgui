@@ -313,7 +313,7 @@ pub fn build(b: *std.Build) void {
             });
         },
         .sdl2_opengl3 => {
-            if (b.lazyDependency("zsdl", .{})) |zsdl| {
+            if (b.lazyDependency("zsdl2", .{})) |zsdl| {
                 imgui.addIncludePath(zsdl.path("libs/sdl2/include"));
             }
             imgui.addCSourceFiles(.{
@@ -339,7 +339,7 @@ pub fn build(b: *std.Build) void {
             });
         },
         .sdl2 => {
-            if (b.lazyDependency("zsdl", .{})) |zsdl| {
+            if (b.lazyDependency("zsdl2", .{})) |zsdl| {
                 imgui.addIncludePath(zsdl.path("libs/sdl2/include"));
             }
             imgui.addCSourceFiles(.{
@@ -362,7 +362,7 @@ pub fn build(b: *std.Build) void {
             });
         },
         .sdl3_gpu => {
-            if (b.lazyDependency("zsdl", .{})) |zsdl| {
+            if (b.lazyDependency("zsdl2", .{})) |zsdl| {
                 imgui.addIncludePath(zsdl.path("libs/sdl3/include"));
             }
             imgui.addCSourceFiles(.{
