@@ -16,6 +16,7 @@ pub const Backend = enum {
     sdl3_opengl3,
     sdl3_renderer,
     sdl3_gpu,
+    sdl3,
 };
 
 pub fn build(b: *std.Build) void {
@@ -398,8 +399,8 @@ pub fn build(b: *std.Build) void {
             });
         },
         .sdl3 => {
-            if (b.lazyDependency("zsdl", .{})) |zsdl| {
-                imgui.addIncludePath(zsdl.path("libs/sdl3/include"));
+            if (b.lazyDependency("zsdl3", .{})) |zsdl| {
+                imgui.addIncludePath(zsdl.path("include"));
             }
             imgui.addCSourceFiles(.{
                 .files = &.{

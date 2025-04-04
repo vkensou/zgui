@@ -24,6 +24,7 @@ pub const backend = switch (@import("zgui_options").backend) {
     .sdl3_opengl3 => @import("backend_sdl3_opengl.zig"),
     .sdl3_renderer => @import("backend_sdl3_renderer.zig"),
     .sdl3_gpu => @import("backend_sdl3_gpu.zig"),
+    .sdl3 => @import("backend_sdl3.zig"),
     .no_backend => .{},
 };
 const te_enabled = @import("zgui_options").with_te;
