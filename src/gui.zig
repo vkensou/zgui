@@ -24,7 +24,6 @@ pub const backend = switch (@import("zgui_options").backend) {
     .sdl3_opengl3 => @import("backend_sdl3_opengl.zig"),
     .sdl3_renderer => @import("backend_sdl3_renderer.zig"),
     .sdl3_gpu => @import("backend_sdl3_gpu.zig"),
-    .sdl3 => @import("backend_sdl3.zig"),
     .no_backend => .{},
 };
 const te_enabled = @import("zgui_options").with_te;
@@ -97,7 +96,7 @@ pub fn deinit() void {
             while (it.next()) |kv| {
                 const address = kv.key_ptr.*;
                 const size = kv.value_ptr.*;
-                mem_allocator.?.free(@as([*]align(mem_alignment.toByteUnits()) u8, @ptrFromInt(address))[0..size]);
+                mem_allocator.?.free(@as([*]align(mem_alignment) u8, @ptrFromInt(address))[0..size]);
                 std.log.info(
                     "[zgui] Possible memory leak or static memory usage detected: (address: 0x{x}, size: {d})",
                     .{ address, size },
@@ -131,7 +130,7 @@ extern fn zguiSetCurrentContext(ctx: ?Context) void;
 var mem_allocator: ?std.mem.Allocator = null;
 var mem_allocations: ?std.AutoHashMap(usize, usize) = null;
 var mem_mutex: std.Thread.Mutex = .{};
-const mem_alignment: std.mem.Alignment = .@"16";
+const mem_alignment = 16;
 
 fn zguiMemAlloc(size: usize, _: ?*anyopaque) callconv(.c) ?*anyopaque {
     mem_mutex.lock();
@@ -156,7 +155,7 @@ fn zguiMemFree(maybe_ptr: ?*anyopaque, _: ?*anyopaque) callconv(.c) void {
         if (mem_allocations != null) {
             if (mem_allocations.?.fetchRemove(@intFromPtr(ptr))) |kv| {
                 const size = kv.value;
-                const mem = @as([*]align(mem_alignment.toByteUnits()) u8, @ptrCast(@alignCast(ptr)))[0..size];
+                const mem = @as([*]align(mem_alignment) u8, @ptrCast(@alignCast(ptr)))[0..size];
                 mem_allocator.?.free(mem);
             }
         }
@@ -322,6 +321,22 @@ pub const io = struct {
     /// `pub fn setDefaultFont(font: Font) void`
     pub const setDefaultFont = zguiIoSetDefaultFont;
     extern fn zguiIoSetDefaultFont(font: Font) void;
+
+    pub fn getFontsTextDataAsRgba32() struct {
+        width: i32,
+        height: i32,
+        pixels: ?[*]const u32,
+    } {
+        var width: i32 = undefined;
+        var height: i32 = undefined;
+        const ptr = zguiIoGetFontsTexDataAsRgba32(&width, &height);
+        return .{
+            .width = width,
+            .height = height,
+            .pixels = ptr,
+        };
+    }
+    extern fn zguiIoGetFontsTexDataAsRgba32(width: *c_int, height: *c_int) [*c]const u32;
 
     pub const getFontsTexRef = zguiIoGetFontsTexRef;
     extern fn zguiIoGetFontsTexRef() TextureRef;

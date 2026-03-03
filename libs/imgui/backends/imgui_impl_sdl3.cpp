@@ -106,6 +106,19 @@
 #define SDLK_GRAVE SDLK_BACKQUOTE
 #endif
 
+// FIX(zig-gamedev):
+extern "C" {
+
+bool     ImGui_ImplSDL3_InitForSDLGPU(SDL_Window* window);
+bool     ImGui_ImplSDL3_InitForOpenGL(SDL_Window* window, void* sdl_gl_context);
+bool     ImGui_ImplSDL3_InitForSDLRenderer(SDL_Window* window, SDL_Renderer* renderer);
+bool     ImGui_ImplSDL3_InitForOther(SDL_Window* window);
+void     ImGui_ImplSDL3_Shutdown();
+void     ImGui_ImplSDL3_NewFrame();
+bool     ImGui_ImplSDL3_ProcessEvent(const SDL_Event* event);
+
+}
+
 // SDL Data
 struct ImGui_ImplSDL3_Data
 {
