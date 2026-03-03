@@ -16,7 +16,6 @@ pub const Backend = enum {
     sdl3_opengl3,
     sdl3_renderer,
     sdl3_gpu,
-    sdl3,
 };
 
 pub fn build(b: *std.Build) void {
@@ -103,7 +102,7 @@ pub fn build(b: *std.Build) void {
         }),
     });
 
-    imgui.root_module.addCMacro("IMGUI_DISABLE_OBSOLETE_FUNCTIONS", "");
+    // imgui.root_module.addCMacro("IMGUI_DISABLE_OBSOLETE_FUNCTIONS", "");
 
     if (options.shared) {
         if (target.result.os.tag == .windows) {
